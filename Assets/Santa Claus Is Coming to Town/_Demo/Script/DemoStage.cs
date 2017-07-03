@@ -14,7 +14,7 @@
 		[Space(4f)]
 		public Light MainLight;
 		public Transform MainGround;
-		public Text KillNum, HighScore;
+		public Text KillNum, HighScore, Msg;
 		public Image HPBarIMG;
 		public Text HPBarTXT;
 		public Transform GameOverUI;
@@ -86,7 +86,7 @@
 			PlayerSign = sign.transform;
 			PlayerSign.rotation = Camera.main.transform.rotation;
 			TextMesh tm = sign.AddComponent<TextMesh>();
-			tm.text = "[ " + Players[currentPlayerID].gameObject.name + " ]";
+			tm.text = "[ \"You (  ) hard today.\" \"Yes I have a lot to do\" ]";
 			tm.color = new Color(0.8f, 0.8f, 0.8f);
 			tm.fontStyle = FontStyle.Bold;
 			tm.alignment = TextAlignment.Center;
@@ -101,6 +101,7 @@
 //			HighScore.text = highScore.ToString("00");
 			KillNum.text = "0";
 //			FreshBar2();
+			SpawnEnemy();
 		}
 
 		void Update () {
@@ -206,13 +207,13 @@ Press <size=50><color=#cc3333ff>[ESC]</color></size> to Continue",
 				CurrentPlayer.position = Vector3.zero;
 			}
 
-			// Spawn Enemy
-			if (Time.time > LastSpawnTime + CurrentSpawnGap) {
-				LastSpawnTime = Time.time;
-				CurrentSpawnGap *= Mathf.Lerp(0.99f, 0.999f, Mathf.Clamp01((float)CurrentEnemyNum / (float)DeadEnd));
-				CurrentSpawnGap = Mathf.Max(0.3f, CurrentSpawnGap);
-				SpawnEnemy();
-			}
+//			// Spawn Enemy
+//			if (Time.time > LastSpawnTime + CurrentSpawnGap) {
+//				LastSpawnTime = Time.time;
+//				CurrentSpawnGap *= Mathf.Lerp(0.99f, 0.999f, Mathf.Clamp01((float)CurrentEnemyNum / (float)DeadEnd));
+//				CurrentSpawnGap = Mathf.Max(0.3f, CurrentSpawnGap);
+//				SpawnEnemy();
+//			}
 
             //Alert
    //         if (CurrentEnemyNum > DeadEnd - 10 && Time.time > PrevAlertTime + Mathf.Lerp(0.1f, 2f, (float)(DeadEnd - CurrentEnemyNum) / 10f)) {
@@ -412,6 +413,10 @@ Press <size=50><color=#cc3333ff>[ESC]</color></size> to Continue",
 			Main._1.transform.localScale = Vector3.one * 3f;
 			Main._1.text = "<size=32><b>-</b></size> " + Main.combo.ToString();
         }
+
+		public static void UpdateMessage () {
+			Main.Msg.text = "Success!";
+		}
 
 
 		public static void PlaySound (int id, float v = 1f) {
